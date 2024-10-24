@@ -23,8 +23,8 @@ function buildMetadata(sample) {
     Object.entries(results).forEach(([key, value]) => { 
       panel.append("h6").text(`${key}: ${value}`);
     });
-
-
+  });
+}
 // function to build both charts
 function buildCharts(sample) {
   d3.json("https://static.bc-edx.com/data/dl-1-2/m14/lms/starter/samples.json").then((data) => {
@@ -39,8 +39,8 @@ function buildCharts(sample) {
 
     // Get the otu_ids, otu_labels, and sample_values
 
-    const otu_ids = results.otu_ids;
-    const otu_labels = results.otu_labels;
+    const otu_ids = result.otu_ids;
+    const otu_labels = result.otu_labels;
     const sample_values = result.sample_values;
 
     // Build a Bubble Chart
@@ -71,9 +71,9 @@ function buildCharts(sample) {
 
     // For the Bar Chart, map the otu_ids to a list of strings for your yticks
     
-    const yticks = otu_ids.slice(0, 10).map(id => 'OTD ${id}').reverse();
+    const yticks = otu_ids.slice(0, 10).map(id => `OTD ${id}`).reverse();
     const barValues = sample_values.slice(0, 10).reverse();
-    const barLables = otu_labels.slice(0, 10).reverse();
+    const barLabels = otu_labels.slice(0, 10).reverse();
 
     // Build a Bar Chart
     // Don't forget to slice and reverse the input data appropriately
@@ -81,7 +81,7 @@ function buildCharts(sample) {
     const barTrace = {
       x: barValues,
       y: yticks,
-      text: barLables,
+      text: barLabels,
       type: 'bar',
       orientation: 'h'
     }; 
@@ -104,29 +104,34 @@ function init() {
   d3.json("https://static.bc-edx.com/data/dl-1-2/m14/lms/starter/samples.json").then((data) => {
 
     // Get the names field
-
+    const sampleNames = data.names;
 
     // Use d3 to select the dropdown with id of `#selDataset`
-
+    const dropdownMenu = d3.select("#selDataset");
 
     // Use the list of sample names to populate the select options
     // Hint: Inside a loop, you will need to use d3 to append a new
     // option for each sample name.
-
+    sampleNames.forEach((sample) => {
+      dropdownMenu.append("option").text(sample).property("value", sample);
+    });
 
     // Get the first sample from the list
-
+    const firstSample = sampleNames[0];
 
     // Build charts and metadata panel with the first sample
-
+    buildCharts(firstSample);
+    buildMetadata(firstSample);
   });
 }
 
 // Function for event listener
 function optionChanged(newSample) {
   // Build charts and metadata panel each time a new sample is selected
-
+  buildCharts(newSample);
+  buildMetadata(newSample);
 }
 
 // Initialize the dashboard
+
 init();

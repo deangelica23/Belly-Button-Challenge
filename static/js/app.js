@@ -20,8 +20,25 @@ function buildMetadata(sample) {
     // Inside a loop, you will need to use d3 to append new
     // tags for each key-value in the filtered metada.
 
-    Object.entries(results).forEach(([key, value]) => { 
-      panel.append("h6").text(`${key}: ${value}`);
+    panel.style("backgound-color", "#f0f8ff")
+         .style("padding", "10x")
+         .style("border-radius", "8px"); 
+
+    const customFields = {
+      'ID': results.id,
+      'Ethniciy': results.ethnicity,
+      'Gender': results.gender,
+      'Age': results.age,
+      'Location': results.location,
+      'BBType': results.bbtype,
+      'Wash Frequency': results.wfreg
+
+    };
+
+
+    Object.entries(customFields).forEach(([key, value]) => { 
+      panel.append("h6") //.text(`${key}: ${value}`);
+           .text
     });
   });
 }
@@ -60,9 +77,9 @@ function buildCharts(sample) {
       const bubbleData = [bubbleTrace];
 
       const bubbleLayout = {
-        title: 'Bubble Chart',
-        xaxis: { title: 'OTU IDs' },
-        showlegend: false
+        title: 'Bacteria Cultures Per Sample',
+        xaxis: { title: 'OTU ID' },
+        yaxis: { title: ' Number of Bacteria'}
       };
 
     // Render the Bubble Chart
@@ -89,9 +106,8 @@ function buildCharts(sample) {
     const barData = [barTrace];
 
     const barLayout = {
-      title: 'Top 10 OTUs',
-      xaxis: {title: 'Sample Values'},
-      yaxis: { title: 'OTU IDs'}
+      title: 'Top 10 Bacteria Cultures Found',
+      xaxis: {title: 'Number of Bacteria'},
     };
 
     // Render the Bar Chart

@@ -20,10 +20,6 @@ function buildMetadata(sample) {
     // Inside a loop, you will need to use d3 to append new
     // tags for each key-value in the filtered metada.
 
-    panel.style("backgound-color", "#f0f8ff")
-         .style("padding", "10x")
-         .style("border-radius", "8px"); 
-
     const customFields = {
       'ID': results.id,
       'Ethniciy': results.ethnicity,
@@ -37,8 +33,8 @@ function buildMetadata(sample) {
 
 
     Object.entries(customFields).forEach(([key, value]) => { 
-      panel.append("h6") //.text(`${key}: ${value}`);
-           .text
+      panel.append("h6").text(`${key}: ${value}`);
+        
     });
   });
 }
